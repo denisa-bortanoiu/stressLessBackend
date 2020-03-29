@@ -10,8 +10,8 @@ class User(db.Model):
     username = db.Column(db.String(255), unique=True, nullable=False)
     display_name = db.Column(db.String(255))
     password = db.Column(db.String(255))
-    last_login_time = db.Column(db.DateTime, default=datetime.datetime.now())
-    local_user = db.Column(db.Boolean, default=True)
+    last_login_time = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    super_powered = db.Column(db.Boolean, default=False)
 
     def dump(self):
         return {

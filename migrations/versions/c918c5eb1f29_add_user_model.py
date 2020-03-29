@@ -24,7 +24,7 @@ def upgrade():
         sa.Column('display_name', sa.String(255)),
         sa.Column('password', sa.String(255)),
         sa.Column('last_login_time', sa.DateTime, server_default=sa.func.current_timestamp()),
-        sa.Column('local_user', sa.Boolean, server_default=sa.false())
+        sa.Column('super_powered', sa.Boolean, server_default=sa.false())
     )
 
 

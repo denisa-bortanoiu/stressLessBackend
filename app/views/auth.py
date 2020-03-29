@@ -8,11 +8,11 @@ from sqlalchemy.exc import IntegrityError
 
 from app.exceptions import (
     UnauthorizedProblem,
-    ForbiddenProblem,
     BadRequestProblem
 )
 from app.extensions import db
 from app.models import User
+from app.views import super_powered_user_only
 
 JWT_ISSUER = 'com.stressless'
 JWT_SECRET = 'Str3$13sS'
@@ -48,13 +48,6 @@ def _generate_jwt(username):
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
 
-def _is_local_user(username):
-    user = User.query.filter(User.username == username).one_or_none()
-    if user and user.local_user:
-        return True
-    return False
-
-
 def jwt_auth(token):
     try:
         return jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
@@ -77,12 +70,10 @@ def login(token_info):
     return resp, 200
 
 
-def create_user(user_data, token_info):
-    # one can create another user if they are a local user (with superpowers)
-    if not _is_local_user(token_info['sub']):
-        raise ForbiddenProblem
-
+@super_powered_user_only
+def create_user(user_data, logged_in_user):
     try:
+        user_data['password'] = _hash_password(user_data['password'])
         user = User(**user_data)
         db.session.add(user)
         db.session.commit()
