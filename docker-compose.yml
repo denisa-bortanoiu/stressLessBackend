@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.app
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/code
+    environment:
+      FLASK_ENV: development
+    command: sh gunicorn.sh
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: "mariadb:10.5-bionic"
+    environment:
+      MYSQL_USER: stress
+      MYSQL_PASSWORD: stress
+      MYSQL_DATABASE: stress
+      MYSQL_ROOT_PASSWORD: root
+    expose:
+      - 3306
+    volumes:
+    - stress_data:/var/lib/mysql
+
+volumes:
+  stress_data:
