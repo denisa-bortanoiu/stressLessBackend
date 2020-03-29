@@ -81,6 +81,19 @@ paths:
         '403':
           description: User not allowed to create another user.
 
+  /rate_your_date/questionnaire:
+    get:
+      tags:
+        - Rate your day
+      summary: Retrieve 3 questions for daily questionnaire
+      operationId: app.views.rate_your_day.questionnaire
+      security:
+        - jwtAuth: []
+      responses:
+        '200':
+          description: List of questions
+        '401':
+          description: User not authenticated.
   /rate_your_date/rating:
     get:
       tags:

@@ -1,10 +1,14 @@
 import datetime
+import json
+import random
 
 from flask import current_app as app
 
 from app.extensions import db
 from app.models import DailyRating
 from app.views import normal_user_only
+
+HADS_QUESTIONS = json.load(open('/code/app/data/hads.json'))
 
 
 @normal_user_only
@@ -40,3 +44,8 @@ def user_ratings(logged_in_user):
         DailyRating.user_id == logged_in_user.id
     ).all()
     return [rating.dump() for rating in ratings]
+
+
+def questionnaire():
+    random.shuffle(HADS_QUESTIONS)
+    return HADS_QUESTIONS[:3], 200

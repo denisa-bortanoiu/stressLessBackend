@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "indicator": "anxiety",
+    "question_text": "I feel tense or ‘wound up’.",
+    "answers": "asc"
+  },
+  {
+    "id": 2,
+    "indicator": "depression",
+    "question_text": "I still enjoy the things I used to enjoy.",
+    "answers": "desc"
+  },
+  {
+    "id": 3,
+    "indicator": "anxiety",
+    "question_text": "I get a sort of frightened feeling as if something awful is about to happen.",
+    "answers": "asc"
+  },
+  {
+    "id": 4,
+    "indicator": "depression",
+    "question_text": "I can laugh and see the funny side of things.",
+    "answers": "desc"
+  },
+  {
+    "id": 5,
+    "indicator": "anxiety",
+    "question_text": "Worrying thoughts go through my mind.",
+    "answers": "asc"
+  },
+  {
+    "id": 6,
+    "indicator": "depression",
+    "question_text": "I feel cheerful.",
+    "answers": "desc"
+  },
+  {
+    "id": 7,
+    "indicator": "anxiety",
+    "question_text": "I can sit at ease and feel relaxed.",
+    "answers": "desc"
+  },
+  {
+    "id": 8,
+    "indicator": "depression",
+    "question_text": "I feel as if I am slowed down.",
+    "answers": "asc"
+  },
+  {
+    "id": 9,
+    "indicator": "anxiety",
+    "question_text": "I get a sort of frightened feeling like 'butterflies' in the stomach.",
+    "answers": "asc"
+  },
+  {
+    "id": 10,
+    "indicator": "depression",
+    "question_text": "I have lost interest in my appearance.",
+    "answers": "asc"
+  },
+  {
+    "id": 11,
+    "indicator": "anxiety",
+    "question_text": "I feel restless as I have to be on the move.",
+    "answers": "asc"
+  },
+  {
+    "id": 12,
+    "indicator": "depression",
+    "question_text": "I look forward with enjoyment to things.",
+    "answers": "desc"
+  },
+  {
+    "id": 13,
+    "indicator": "anxiety",
+    "question_text": "I get sudden feelings of panic.",
+    "answers": "asc"
+  },
+  {
+    "id": 14,
+    "indicator": "depression",
+    "question_text": "I can enjoy a good book or ratio/TV program.",
+    "answers": "desc"
+  }
+]
