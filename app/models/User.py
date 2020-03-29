@@ -10,8 +10,10 @@ class User(db.Model):
     username = db.Column(db.String(255), unique=True, nullable=False)
     display_name = db.Column(db.String(255))
     password = db.Column(db.String(255))
-    last_login_time = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    last_login_time = db.Column(db.DateTime,
+                                default=datetime.datetime.utcnow())
     super_powered = db.Column(db.Boolean, default=False)
+    ratings = db.relationship('DailyRating', backref=db.backref('user'))
 
     def dump(self):
         return {

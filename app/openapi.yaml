@@ -81,12 +81,70 @@ paths:
         '403':
           description: User not allowed to create another user.
 
+  /rate_your_date/rating:
+    get:
+      tags:
+        - Rate your day
+      summary: Retrieve user ratings
+      operationId: app.views.rate_your_day.user_ratings
+      security:
+        - jwtAuth: []
+      responses:
+        '200':
+          description: 'List of user ratings'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DailyRating'
+        '401':
+          description: User not authenticated.
+        '403':
+          description: User not allowed to use ratings.
+    post:
+      tags:
+        - Rate your day
+      summary: Create rating for today
+      operationId: app.views.rate_your_day.create_rating
+      security:
+        - jwtAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: rating_data
+              type: object
+              properties:
+                general:
+                  type: number
+                  example: 1
+                questionnaire:
+                  type: number
+                  example: 3
+      responses:
+        '200':
+          description: 'Rating created successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyRating'
+        '401':
+          description: User not authenticated.
+        '403':
+          description: User not allowed to use ratings.
+
 components:
   securitySchemes:
     basicAuth:
       type: http
       scheme: basic
       x-basicInfoFunc: app.views.auth.basic_auth
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: app.views.auth.jwt_auth
 
   schemas:
     User:
@@ -101,3 +159,18 @@ components:
         last_login_time:
           type: string
           example: 2020-03-29T15:32:13Z
+    DailyRating:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        user:
+          type: string
+          example: test_user
+        questionnaire_score:
+          type: integer
+          example: 3
+        general_score:
+          type: integer
+          example: 1
