@@ -4,4 +4,5 @@ flask-migrate==2.4.0
 flask-sqlalchemy==2.4.0
 gunicorn==20.0.4
 PyMySql==0.8.1
+PyJWT==1.7.1
 swagger-ui-bundle==0.0.5

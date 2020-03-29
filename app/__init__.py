@@ -12,7 +12,8 @@ def create_app():
 
     settings = {
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
-        'SQLALCHEMY_DATABASE_URI': 'mysql+pymysql://stress:stress@mariadb:3306/stress',
+        'SQLALCHEMY_DATABASE_URI':
+            'mysql+pymysql://stress:stress@mariadb:3306/stress',
         'SQLALCHEMY_ENGINE_OPTIONS': {
             'pool_recycle': 3600,
             'pool_pre_ping': True

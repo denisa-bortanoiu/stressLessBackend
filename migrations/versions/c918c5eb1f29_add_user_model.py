@@ -20,7 +20,8 @@ def upgrade():
     op.create_table(
         'users',
         sa.Column('id', sa.Integer, primary_key=True, autoincrement=True),
-        sa.Column('username', sa.String(255), nullable=False),
+        sa.Column('username', sa.String(255), unique=True, nullable=False),
+        sa.Column('display_name', sa.String(255)),
         sa.Column('password', sa.String(255)),
         sa.Column('last_login_time', sa.DateTime, server_default=sa.func.current_timestamp()),
         sa.Column('local_user', sa.Boolean, server_default=sa.false())
