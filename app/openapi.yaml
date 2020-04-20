@@ -147,6 +147,20 @@ paths:
         '403':
           description: User not allowed to use ratings.
 
+  /fitbit/profile:
+    get:
+      summary: Login user with Fitbit. You must provide an Authorization Bearer token.
+      operationId: app.views.fitbit_wrapper.profile
+      responses:
+        '200':
+          description: 'Login successful.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: User not authorized.
+
 components:
   securitySchemes:
     basicAuth:
