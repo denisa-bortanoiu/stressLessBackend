@@ -16,7 +16,7 @@ from app.views import super_powered_user_only
 
 JWT_ISSUER = 'com.stressless'
 JWT_SECRET = 'Str3$13sS'
-JWT_LIFETIME_SECONDS = 3600
+JWT_LIFETIME_SECONDS = 3600 * 24
 JWT_ALGORITHM = 'HS256'
 
 
@@ -45,7 +45,7 @@ def _generate_jwt(username):
         "sub": str(username),
     }
 
-    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM).decode('utf-8')
 
 
 def jwt_auth(token):
