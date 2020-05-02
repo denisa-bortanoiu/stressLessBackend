@@ -1,6 +1,7 @@
 import datetime
 import json
 import random
+import pandas as pd
 
 from sqlalchemy import func
 from sqlalchemy.sql import label
@@ -118,7 +119,7 @@ def generic_user_status(logged_in_user):
             return {'message': 'You missed morning and afternoon ratings. You can still rate your day now!'}
         if len(ratings) == 1:
             if ratings[0].time_of_day == 'A' or ratings[0].time_of_day == 'M':
-                return {'message': f'You only rated your {ratings[0].get_time_of_day}. Let\'s rate the evening now!'}
+                return {'message': f'You only rated your {ratings[0].get_time_of_day()}. Let\'s rate the evening now!'}
             if ratings[0].missing_ratings is None:
                 return {'message': 'You only rated your evening today. See you tomorrow!'}
             else:
@@ -162,11 +163,11 @@ def generic_user_streak(logged_in_user):
     today = datetime.date.today()
     if start_date:
         delta = today - start_date
-        message = f"You've been active everyday in the app, for {active_days} days."
+        message = f"You've been active everyday in the app for {active_days} days."
         if delta.days == 0:
             message = "Welcome to your first day with StressLess!"
         if delta.days + 1 != active_days:
-            message = f"You've been active in the app, for {active_days} out of {delta.days} days."
+            message = f"You've been active in the app for {active_days} out of {delta.days} days."
         return {'start_date': start_date, 'active_days': active_days, 'message': message}
     else:
         return {'start_date': today, 'active_days': 0, 'message': "Welcome to your first day with StressLess!"}
@@ -175,3 +176,63 @@ def generic_user_streak(logged_in_user):
 def questionnaire():
     random.shuffle(HADS_QUESTIONS)
     return HADS_QUESTIONS[:3], 200
+
+
+@normal_user_only
+def mood_chart_data(logged_in_user):
+    today = datetime.date.today()
+
+    ratings = DailyRating.query.filter(
+        DailyRating.user_id == logged_in_user.id,
+        DailyRating.day >= today - datetime.timedelta(days=7)
+    ).all()
+    min_day_ago = today - min(today, *[rating.day for rating in ratings])
+    data_points = {
+        day: {
+            "M": {},
+            "A": {},
+            "E": {},
+        } for day in [today - datetime.timedelta(days=x) for x in (range(0, min_day_ago.days + 1))]
+    }
+    for rating in ratings:
+        data_points[rating.day][rating.time_of_day] = {
+            'general': rating.general_score,
+            'questionnaire': rating.questionnaire_score
+        }
+    flipped_data = {
+        day: {
+            'general': [
+                data['M'].get('general'),
+                data['A'].get('general'),
+                data['E'].get('general')
+            ],
+            'questionnaire': [
+                data['M'].get('questionnaire'),
+                data['A'].get('questionnaire'),
+                data['E'].get('questionnaire')
+            ],
+        } for day, data in data_points.items()
+    }
+
+    normalised_data = {
+        "day": [],
+        "general": [],
+        "questionnaire": []
+    }
+    for day, data in sorted(flipped_data.items(), key=lambda x: x[0]):
+        normalised_data['day'].extend([day, day, day])
+        normalised_data['general'].extend(data['general'])
+        normalised_data['questionnaire'].extend(data['questionnaire'])
+
+    df = pd.DataFrame(normalised_data)
+    interpolated = df.interpolate(method='linear', limit_direction ='forward')
+    interpolated = interpolated.interpolate(method='linear', limit_direction ='backward')
+
+    chart_data = [
+        {
+            "day": entry["day"].strftime('%d-%m'),
+            "general": entry["general"],
+            "questionnaire": entry["questionnaire"] / 3
+        } for entry in interpolated.to_dict(orient='records')
+    ]
+    return chart_data, 200

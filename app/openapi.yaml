@@ -192,6 +192,29 @@ paths:
           description: User not authenticated.
         '403':
           description: User not allowed to use ratings.
+  /rate_your_day/mood_chart_data:
+    get:
+      tags:
+        - Rate your day
+      summary: Retrieve user ratings's status for today
+      operationId: app.views.rate_your_day.mood_chart_data
+      security:
+        - jwtAuth: []
+      responses:
+        '200':
+          description: Retrieve human readable status of today's ratings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: You only rated your evening today. See you tomorrow!
+        '401':
+          description: User not authenticated.
+        '403':
+          description: User not allowed to use ratings.
 
   /fitbit/profile:
     get:
