@@ -229,6 +229,27 @@ paths:
                 $ref: '#/components/schemas/User'
         '403':
           description: User not authorized.
+  /fitbit/sync:
+    post:
+      summary: Login user with Fitbit. You must provide an Authorization Bearer token.
+      operationId: app.views.fitbit_wrapper.sync
+      parameters:
+        - in: query
+          name: date_string
+          schema:
+            type: string
+          required: true
+          description: Date for which to sync data
+          example: 2020-05-01
+      responses:
+        '200':
+          description: 'Sync successful.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: User not authorized.
 
 components:
   securitySchemes:

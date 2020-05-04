@@ -14,6 +14,7 @@ class User(db.Model):
                                 default=datetime.datetime.utcnow())
     super_powered = db.Column(db.Boolean, default=False)
     ratings = db.relationship('DailyRating', backref=db.backref('user'))
+    daily_stats = db.relationship('DailySummary', backref=db.backref('user'))
 
     def dump(self):
         return {
