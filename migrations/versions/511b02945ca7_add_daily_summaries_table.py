@@ -28,6 +28,7 @@ def upgrade():
         sa.Column('sleep_efficiency', sa.Integer(), nullable=True),
         sa.Column('sleep_min_asleep', sa.Integer(), nullable=True),
         sa.Column('sleep_min_in_bed', sa.Integer(), nullable=True),
+        sa.Column('missing_data', sa.Boolean(), nullable=True, server_default=sa.true()),
         sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
         sa.PrimaryKeyConstraint('id')
     )

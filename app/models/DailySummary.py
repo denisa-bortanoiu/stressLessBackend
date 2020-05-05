@@ -16,6 +16,7 @@ class DailySummary(db.Model):
     sleep_efficiency = db.Column(db.Integer)
     sleep_min_asleep = db.Column(db.Integer)
     sleep_min_in_bed = db.Column(db.Integer)
+    missing_data = db.Column(db.Boolean, default=True)
 
     def dump(self):
         return {
