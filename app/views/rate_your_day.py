@@ -232,7 +232,7 @@ def mood_chart_data(logged_in_user):
         {
             "day": entry["day"].strftime('%d-%m'),
             "general": entry["general"],
-            "questionnaire": entry["questionnaire"] / 3
+            "questionnaire": entry["questionnaire"] / 3 if entry["questionnaire"] else 0
         } for entry in interpolated.to_dict(orient='records')
     ]
     return chart_data, 200

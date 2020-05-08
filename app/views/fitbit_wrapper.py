@@ -94,7 +94,7 @@ def sync_day(user, day_date):
     # heart rate data
     response = requests.get(f"{FITBIT_API_URL}/1/user/-/activities/heart/date/{date_string}"
                             f"/1d/1min.json", headers=headers)
-    if response.status_code == 200:
+    if response.status_code == 200 and response.json().get('activities-heart-intraday'):
         result = response.json()['activities-heart-intraday']['dataset']
         for point in result:
             existing = MinuteSeries.query.filter(
