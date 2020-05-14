@@ -11,6 +11,8 @@ class MinuteSeries(db.Model):
     day = db.Column(db.Date, default=datetime.date.today(), nullable=False)
     time = db.Column(db.String(10))
     heart_rate = db.Column(db.Integer)
+    app_used = db.Column(db.String(255))
+    social_media = db.Column(db.Boolean, nullable=True)
 
     def dump(self):
         return {
@@ -18,5 +20,7 @@ class MinuteSeries(db.Model):
             "user_id": self.user_id,
             "day": self.day,
             "time": self.time,
-            "heart_rate": self.heart_rate
+            "heart_rate": self.heart_rate,
+            "app_used": self.app_used,
+            "social_media": self.social_media
         }

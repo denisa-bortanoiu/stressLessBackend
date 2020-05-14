@@ -218,6 +218,8 @@ paths:
 
   /fitbit/profile:
     get:
+      tags:
+        - Fitbit API wrapper
       summary: Login user with Fitbit. You must provide an Authorization Bearer token.
       operationId: app.views.fitbit_wrapper.profile
       responses:
@@ -231,6 +233,8 @@ paths:
           description: User not authorized.
   /fitbit/sync:
     post:
+      tags:
+        - Fitbit API wrapper
       summary: Login user with Fitbit. You must provide an Authorization Bearer token.
       operationId: app.views.fitbit_wrapper.sync
       parameters:
@@ -241,6 +245,43 @@ paths:
           required: false
           description: Date for which to sync data
           example: 2020-05-01
+      responses:
+        '200':
+          description: 'Sync successful.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailySummary'
+        '403':
+          description: User not authorized.
+
+  /usage_stats/sync:
+    post:
+      tags:
+        - Usage statistics
+      summary: Retrieve app usage statistics.
+      operationId: app.views.usage_stats.sync
+      security:
+        - jwtAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              x-body-name: data
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: com.facebook.orca
+                  started:
+                    type: boolean
+                    example: true
+                  timestamp:
+                    type: number
+                    example: 1588865456142
       responses:
         '200':
           description: 'Sync successful.'
@@ -303,3 +344,42 @@ components:
         time_of_day:
           type: string
           example: afternoon
+    DailySummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        user_id:
+          type: integer
+          example: 23
+        missing_data:
+          type: boolean
+          example: true
+        day:
+          type: string
+          example: 12-04-2020
+        steps:
+          type: integer
+          example: 2306
+        active_minutes:
+          type: integer
+          example: 12
+        distance:
+          type: number
+          example: 1.02
+        resting_heart_rate:
+          type: integer
+          example: 55
+        sleep:
+          type: object
+          properties:
+            efficiency:
+              type: integer
+              example: 89
+            min_asleep:
+              type: integer
+              example: 239
+            time_in_bed:
+              type: integer
+              example: 309

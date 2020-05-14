@@ -31,5 +31,6 @@ class DailySummary(db.Model):
                 "efficiency": self.sleep_efficiency,
                 "min_asleep": self.sleep_min_asleep,
                 "time_in_bed": self.sleep_min_in_bed
-            }
+            },
+            "missing_data": self.missing_data
         }

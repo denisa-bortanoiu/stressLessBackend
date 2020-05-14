@@ -125,7 +125,7 @@ def sync_day(user, day_date):
     db.session.commit()
     db.session.refresh(daily_summary)
 
-    return dict(**daily_summary.dump(), missing_data=missing_data), 200
+    return dict(**daily_summary.dump()), 200
 
 
 def sync(date_string=None):
